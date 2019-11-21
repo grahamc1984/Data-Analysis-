@@ -115,11 +115,7 @@ female=arch_gender_prop %>%
 
 ```
 
-Data has been provided for `r sum(arch_gender_prop[,3])' learners. 
-
-The graph above shows that the majority of Advancers (`r round(A_M*100, digits=1)`%) and Explorers (`r round(E_M*100, digits=1)`%) are male where as the majority of Vitalisers (`r round(V_F*100, digits=1)`%) and Fixers (`r round(F_F*100, digits=1)`%) are female. 
-
-The proportion of male to female learners accross the sample data is `r sum(male)`/ `r sum(female)`.
+[add explanatory text]
 
 ## Employment Status by Archteype Class 
 
@@ -142,16 +138,26 @@ Data has been collected recording the stages completed by each learner through t
 
 ## Course Progress by Archetype Class - 2017 
 
-``` {r steps 2017, include=FALSE, echo=FALSE}
+``` {r steps 2017, include=TRUE, echo=FALSE}
 
-ggplot(step_by_arch_2017, aes(x = as.factor(archetype), y = `sum(progress)`)) + geom_boxplot()
+step_by_arch_2017=step_arch_prog_2017 %>% 
+  group_by(archetype, learner_id) %>% 
+  summarise("total_progress"=sum(progress))
+
+ggplot(step_by_arch_2017, aes(x = as.factor(archetype),y= step_by_arch_2017$total_progress )) + geom_boxplot()
 ```
+
 [add explanatory text ]
+
 ## Course Progress by Archetype Class - 2018
 
-```{r steps 2018, include=FALSE, echo=FALSE}
+```{r steps 2018, include=TRUE, echo=FALSE}
 
-ggplot(step_by_arch_2018, aes(x = as.factor(archetype), y = `sum(progress)`)) + geom_boxplot()
+step_by_arch_2018=step_arch_prog_2018 %>%
+   group_by(archetype, learner_id) %>% 
+   summarise("total_progress" = sum(progress))
+
+ggplot(step_by_arch_2018, aes(x = as.factor(archetype), y = step_by_arch_2018$total_progress)) + geom_boxplot()
 ```
 [add explanatory text ]
 
