@@ -69,28 +69,57 @@ Vitalisers make up the majority of 46-55 (`r  round(V46_55*100,digits=1)`%) and 
 
 ## Gender by Archetype Class
 
+```{r gender by arch, inlcude=TRUE, echo=FALSE}
 
+#grouping by archetype and gender 
+arch_gender_prop=enrol_leave_arch %>% 
+  filter(gender!="Unknown") %>% 
+  group_by(archetype, gender) %>% 
+  summarise(n=n()) %>% 
+  mutate(freq=n/sum(n))
 
-## 
+ggplot(data=arch_gender_prop)+geom_bar(aes(x=archetype, y=n, fill = factor(arch_gender_prop$gender)),stat = "identity")
+```
+```{r inline gender, include=FALSE, echo=FALSE}
+#explorers male
+E_M=arch_gender_prop %>% 
+  filter(gender=="male", archetype=="Explorers") %>% 
+  pull(var=4)
 
+#advancers male
+A_M=arch_gender_prop %>% 
+  filter(gender=="male", archetype=="Advancers") %>% 
+  pull(var=4)
 
+#vitalisers female
+V_F=arch_gender_prop %>% 
+  filter(gender=="female", archetype=="Vitalisers") %>% 
+  pull(var=4)
 
-## R Markdown
+#fixers female
+F_F=arch_gender_prop %>% 
+  filter(gender=="female", archetype=="Fixers") %>% 
+  pull(var=4)
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+male=arch_gender_prop %>% 
+  filter(gender=="male") %>% 
+  pull(var=3)
+ 
+female=arch_gender_prop %>% 
+  filter(gender=="female") %>% 
+  pull(var=3)  
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-
-```{r cars}
-summary(cars)
 ```
 
-## Including Plots
+Data has been provided for `r sum(arch_gender_prop[3,3])' learners. 
 
-You can also embed plots, for example:
+The graph above shows the majority of Advancers (`r round(A_M*100, digits=1)`%) and Explorers (`r round(E_M*100, digits=1)`%) are male where as the majority of Vitalisers (`r round(V_F*100, digits=1)`%) and Fixers (`r round(F_F*100, digits=1)`%) are female. 
 
-```{r pressure, echo=FALSE}
-plot(pressure)
-```
+The proportion of male to female learners accross the sample data is `r sum(male)`/ `r sum(female)`.
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+
+
+
+
+

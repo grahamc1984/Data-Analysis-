@@ -37,7 +37,6 @@ ggplot(data=nearly)+geom_bar(aes(x=archetype))
 nearly %>% 
   filter(archetype=="Advancers") 
  
- 
 
 
 step_data=rbind(cyber.security.3.step.activity, cyber.security.4.step.activity, cyber.security.5.step.activity, cyber.security.6.step.activity, cyber.security.7.step.activity)
@@ -73,6 +72,9 @@ Step_fix_2017=step_by_arch_2017 %>%
 Fixers_2017=pull(Step_fix_2017, var=3)
 summary(Fixers_2017)
 
+
+str(Step_adv_2017)
+ggplot(step_by_arch_2017, aes(x = as.factor(archetype), y = `sum(progress)`)) + geom_boxplot()
 
 
 boxplot(Advancers_2017, Fixers_2017)

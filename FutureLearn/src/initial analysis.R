@@ -18,6 +18,9 @@ arch_gender=enrol_leave_arch %>%
   filter(gender!="Unknown") %>% 
   group_by(archetype, gender) %>% 
   summarise(count=n())
+ggplot(data=arch_gender)+geom_bar(aes(x=archetype, y=n, fill = factor(arch_gender$gender)),stat = "identity")
+
+
 
 #grouping by archetype and country 
 arch_country=enrol_leave_arch %>% 
@@ -36,6 +39,8 @@ arch_empl_area=enrol_leave_arch %>%
   filter(employment_area!="Unknown") %>% 
   group_by(archetype, employment_area) %>% 
   summarise(count=n())
+
+
 
 #relative proportion age by archetype
 arch_age_prop=enrol_leave_arch %>% 
@@ -67,6 +72,39 @@ round(V46_55*100,digits=1)
 round(V65*100,digits=1)
 round(E26_35*100,digits=1)
 round(E36_45*100,digits=1)
+
+#grouping by archetype and gender 
+arch_gender_prop=enrol_leave_arch %>% 
+  filter(gender!="Unknown") %>% 
+  group_by(archetype, gender) %>% 
+  summarise(n=n()) %>% 
+  mutate(freq=n/sum(n))
+#explorers male
+E_M=arch_gender_prop %>% 
+  filter(gender=="male", archetype=="Explorers") %>% 
+  pull(var=4)
+round(E_M*100, digits=1)
+#advancers male
+A_M=arch_gender_prop %>% 
+  filter(gender=="male", archetype=="Advancers") %>% 
+  pull(var=4)
+round(A_M*100, digits=1)
+#vitalisers female
+V_F=arch_gender_prop %>% 
+  filter(gender=="female", archetype=="Vitalisers") %>% 
+  pull(var=4)
+round(V_F*100, digits=1)
+#fixers female
+F_F=arch_gender_prop %>% 
+  filter(gender=="female", archetype=="Fixers") %>% 
+  pull(var=4)
+round(F_F*100, digits=1)
+
+
+
+
+ggplot(data=arch_gender_prop)+geom_bar(aes(x=archetype, y=n, fill = factor(arch_gender_prop$gender)),stat = "identity")
+
 
 
 
