@@ -115,18 +115,22 @@ female=arch_gender_prop %>%
 
 ```
 
-[add explanatory text]
+Data has been provided for `r sum(arch_gender_prop[,3])` learners. 
+
+The graph above shows that the majority of Advancers (`r round(A_M*100, digits=1)`%) and Explorers (`r round(E_M*100, digits=1)`%) are male where as the majority of Vitalisers (`r round(V_F*100, digits=1)`%) and Fixers (`r round(F_F*100, digits=1)`%) are female. 
+
+The proportion of male to female learners accross the sample data is `r sum(male)`/ `r sum(female)`.
 
 ## Employment Status by Archteype Class 
 
-``` {r employment status by arch, include=FALSE, echo=FALSE}
+``` {r employment status by arch, include=TRUE, echo=FALSE}
 #grouping by archetype and work status 
 arch_empl_status=enrol_leave_arch %>% 
   filter(employment_status!="Unknown") %>% 
   group_by(archetype,employment_status) %>% 
   summarise(n=n()) %>% 
   mutate(freq=n/sum(n))
-ggplot(data=arch_empl_status)+geom_bar(aes(x=employment_status, y=n, fill = factor(arch_empl_status$archetype)),stat = "identity")
+ggplot(data=arch_empl_status)+geom_bar(aes(x=employment_status, y=n, fill = factor(arch_empl_status$archetype)),stat = "identity") +theme(axis.text.x = element_text(angle = 90))
 ```
 
 
@@ -147,7 +151,31 @@ step_by_arch_2017=step_arch_prog_2017 %>%
 ggplot(step_by_arch_2017, aes(x = as.factor(archetype),y= step_by_arch_2017$total_progress )) + geom_boxplot()
 ```
 
-[add explanatory text ]
+Data was provided for `r nrow(step_by_arch_2017)` leaners.
+
+```{r summary tables 2017 hobbyists, include=TRUE, echo=FALSE}
+
+hobby_step_2017=step_by_arch_2017 %>% 
+  filter(archetype=="Hobbyists") 
+hobby_vec=pull(hobby_step_2017,var=3)
+```
+
+At first reading, learners identifying as part of the Hobbyist archetype perform particularly well, completing on average `r round(mean(hobby_vec), digits=1)` steps within the course, with a median step count of `r median(hobby_vec)`.  The full summary is shown below:
+``` {r hobbyists summary, include=TRUE, echo=FALSE}
+  summary(hobby_vec)
+```
+
+```{r summary tables 2017 preparers, include=TRUE, echo=FALSE}
+
+prep_step_2017=step_by_arch_2017 %>% 
+  filter(archetype=="Preparers") 
+prep_vec=pull(prep_step_2017,var=3)
+```
+
+Learners identifying as part of the Preparers archetype also perform well, completing on average `r round(mean(prep_vec), digits=1)` steps.  Again, the full summary is shown below:
+``` {r preparers summary, include=TRUE, echo=FALSE}
+  summary(prep_vec)
+```
 
 ## Course Progress by Archetype Class - 2018
 
@@ -159,7 +187,10 @@ step_by_arch_2018=step_arch_prog_2018 %>%
 
 ggplot(step_by_arch_2018, aes(x = as.factor(archetype), y = step_by_arch_2018$total_progress)) + geom_boxplot()
 ```
-[add explanatory text ]
+
+Data was provided for `r nrow(step_by_arch_2018)` learners
+
+
 
 
 
