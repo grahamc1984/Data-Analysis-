@@ -59,14 +59,6 @@ enrol_leave_arch=enrol_leave_arch_compl %>%
 step_data=rbind(cyber.security.3.step.activity, cyber.security.4.step.activity, cyber.security.5.step.activity, cyber.security.6.step.activity, cyber.security.7.step.activity)
 
 
-step_data_with_run=rbind(cyber.security.3.step.activity %>% mutate(run = 3), 
-                cyber.security.4.step.activity %>% mutate(run = 4), 
-                cyber.security.5.step.activity %>% mutate(run = 5), 
-                cyber.security.6.step.activity %>% mutate(run = 6), 
-                cyber.security.7.step.activity %>% mutate(run = 7))
-
-
-
 #test for duplicate Learner ID's
 ifelse(nrow(subset(step_data, duplicated("learner_id")))==0, "No Duplicates in Step Data", "Duplicates in Step Data")
 
