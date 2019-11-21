@@ -1,0 +1,31 @@
+Future Learn Analysis - File Directory and Analysis 
+
+1. File Directory 
+
+The following files and objects are pertinent to the final analysis.  These are also described in the Data Preparation and Business & Data Understanding Markdown documents. 
+
+Data Files 
+(found in the data folder within the Future Learn project folder)
+
+x=3:7
+
+cyber.security.x.archetype-survey-responses.csv
+cyber.security.x.enrolments.csv
+cyber.security.x.leaving-survey-results.csv
+cyber.security.x.step-activity.csv
+
+Objects
+Primary sources (post data wrangling) on which analysis is based 
+arch_compl - all archetype survey data 
+enrol_compl - all enrolments data 
+leave_compl - all leavers survey data 
+
+enrol_leave_arch - a combination of all enrolments, leavers survey and archetype survey repsonse data files step_arch_compl - a combination of all step_activity data matched against the arch_compl archetype data
+
+2. Analysis 
+
+On loading the ProjectTemplate file, the raw data will be imported and the data wrangling steps set out in file 01A.R (wihtin the munge folder) will be carried out.  These steps will produce the objects set out above.  
+
+The code for all further analysis is found within the Analysis RMarkdown document.  
+
+
