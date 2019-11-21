@@ -75,3 +75,11 @@ step_arch_compl=left_join(step_data, arch_compl, by="learner_id")
 step_arch=step_arch_compl %>% 
   drop_na(archetype)
 
+#create new column to count progress steps 
+step_arch_prog=mutate(step_arch, progress=as.numeric(ifelse(step_arch$last_completed_at!="", "1", "0")))
+
+#filter by year 
+step_arch_prog_2017 = step_arch_prog%>%
+  filter(year=="2017")
+step_arch_prog_2018=step_arch_prog %>% 
+  filter(year=="2018")
