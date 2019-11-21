@@ -20,7 +20,7 @@ load.project()
 
 The key components of information pertaining to learner demographic are:
 
-* Gener
+* Gender
 * Age
 * Employment Status
 
