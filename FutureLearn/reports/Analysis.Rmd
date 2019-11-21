@@ -15,7 +15,7 @@ library(ProjectTemplate)
 load.project()  
 ```
 
-## Analysis of Demographic Information by Archetype Classificiation 
+# Analysis of Demographic Information by Archetype Classificiation 
 
 The key components of information pertaining to learner demographic are:
 
@@ -133,6 +133,27 @@ arch_empl_status=enrol_leave_arch %>%
 ggplot(data=arch_empl_status)+geom_bar(aes(x=employment_status, y=n, fill = factor(arch_empl_status$archetype)),stat = "identity")
 ```
 
+
+[add explanatory text]
+
+# Analysis of Progress Data by Archetype Class 
+
+Data has been collected recording the stages completed by each learner through the course.  Combining this data togehter with the archetype classifcations and segregating by year produced the "step_arch_2017" and step_arch_2018" data sets, on which I conducted my analysis.  
+
+## Course Progress by Archetype Class - 2017 
+
+``` {r steps 2017, include=FALSE, echo=FALSE}
+
+ggplot(step_by_arch_2017, aes(x = as.factor(archetype), y = `sum(progress)`)) + geom_boxplot()
+```
+[add explanatory text ]
+## Course Progress by Archetype Class - 2018
+
+```{r steps 2018, include=FALSE, echo=FALSE}
+
+ggplot(step_by_arch_2018, aes(x = as.factor(archetype), y = `sum(progress)`)) + geom_boxplot()
+```
+[add explanatory text ]
 
 
 
