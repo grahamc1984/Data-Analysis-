@@ -1,0 +1,96 @@
+---
+title: "Analysis"
+author: "Graham Cole"
+date: "20/11/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_knit$set(root.dir = normalizePath('..'))
+```
+
+```{r load project, include=FALSE}
+library(ProjectTemplate)
+load.project()  
+```
+
+## Analysis of Demographic Information by Archetype Classificiation 
+
+The key components of information pertaining to learner demographic are:
+
+* Gener
+* Age
+* Education Level 
+* Employment Status
+* Employment Sector 
+* Country of Residence 
+
+Using the "enrol_leave_arch" data set, I undertook to investigate each of these areas to identify trends.  
+
+### Age by Arcehtype Class 
+
+``` {r age by archetype, include=TRUE, echo=FALSE}
+ #relative proportion age by archetype
+arch_age_prop=enrol_leave_arch %>% 
+  filter(age_range!="Unknown") %>% 
+  group_by(age_range, archetype) %>% 
+  summarise(n=n()) %>% 
+  mutate(freq=n/sum(n))
+
+#age proportion 
+ggplot(data=arch_age_prop)+geom_bar(aes(x=age_range, y=n, fill = factor(arch_age_prop$archetype)),stat = "identity")
+```
+
+```{r age percentage, include=FALSE, echo=FALSE}
+V46_55=arch_age_prop %>%
+  filter(age_range=="46-55", archetype=="Vitalisers")%>% 
+  pull(var=-1)
+V65=arch_age_prop %>% 
+  filter(age_range==">65", archetype=="Vitalisers") %>% 
+  pull(var=-1)
+E26_35=arch_age_prop %>% 
+  filter(age_range=="26-35", archetype=="Explorers") %>% 
+  pull(var=-1)
+E36_45=arch_age_prop %>% 
+  filter(age_range=="36-45", archetype=="Explorers") %>% 
+  pull(var=-1)
+maxage=arch_age_prop %>% 
+  filter(age_range=="46-55") %>% 
+  pull(var=-2)
+
+```
+
+Data has been provided for `r sum(arch_age_prop[,3])` learners. 
+
+As shown in the graph above, the majority of learners fall within the 46-55 age range (`r sum(maxage)` learners)  
+
+Vitalisers make up the majority of 46-55 (`r  round(V46_55*100,digits=1)`%) and >65 (`r round(V65*100,digits=1)`%) age ranges.  Explorers are most represented within the 26-35 (`r round(E26_35*100,digits=1)`%) and 36-45 (`r round(E36_45*100,digits=1)`%) age ranges.
+
+## Gender by Archetype Class
+
+
+
+## 
+
+
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.

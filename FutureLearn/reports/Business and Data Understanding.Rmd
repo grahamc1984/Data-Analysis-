@@ -1,0 +1,72 @@
+---
+title: "Future Learn - Business & Data Understanding"
+author: "Graham Cole"
+date: "19/11/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_knit$set(root.dir = normalizePath('..'))
+```
+
+```{r load project, include=FALSE}
+library(ProjectTemplate)
+load.project()  
+```
+
+## Background
+
+Future Learn is an online platform offering access to a range of on-line courses provided by a range of education institutions, including Newcastle University.  Courses can be accessed free of charge however completion of the course, and the accreditation which accompanies it, requires the payment of either a course-specific fee or a subscription. 
+
+## The Data 
+
+Data has provided has been generated from seven iterations of a Cyber Security course offered by Newcastle University through Future Learn.  The Data covers the following areas of interest:
+
+* Archetype classification 
+* Enrolment
+* Leaving the Course
+* Student Performance 
+
+## Business Understanding
+
+Through conversations with Sam Flowers (NCL Uni) I investigated further the nature and utilisation of the archetype classification as a means to both stratify learners and glean insight into whether these classifications indeed differentiate bewteen a learners' performance. This was a subject which Sam was interested in pursuing and so I decided to begin my analysis.
+
+In order to gain insight into the archetype classification, I chose to undertaken two parralel lines of enquiry; production of a demographic profile according to archetype and a corresponding summary of course progression. 
+
+The archetype information was obtained through a Future Learn survey which was issued to students alongisde their learning.  It is not mandatory to enable students to particiapte in the course.  
+
+## Data Understanding 
+ 
+### Data Structure 
+
+Set out below is a summary of the data represented in each data file:
+
+```{r data summary, include=TRUE, echo=FALSE}
+
+colnames(cyber.security.3.archetype.survey.responses)
+colnames(cyber.security.3.enrolments)
+colnames(cyber.security.3.leaving.survey.responses)
+colnames(cyber.security.3.question.response)
+colnames(cyber.security.3.step.activity)
+colnames(cyber.security.3.team.members)
+colnames(cyber.security.3.video.stats)
+colnames(cyber.security.3.weekly.sentiment.survey.responses)
+```
+
+
+It should be noted that archetype classification data is not present within run 1 and 2 of the dataset and, therefore, runs 1 & 2 have been excluded from this analysis.
+
+Focussing on runs 3-7, the percentage of enrolled students which have completed the archetype classification survey is shown below:
+
+* Run 3 = `r round(nrow(cyber.security.3.archetype.survey.responses)/nrow(cyber.security.3.enrolments)*100, digits=2)`%
+* Run 4 = `r round(nrow(cyber.security.4.archetype.survey.responses)/nrow(cyber.security.4.enrolments)*100, digits=2)`%
+* Run 5 = `r round(nrow(cyber.security.5.archetype.survey.responses)/nrow(cyber.security.5.enrolments)*100, digits=2)`%
+* Run 6 = `r round(nrow(cyber.security.6.archetype.survey.responses)/nrow(cyber.security.6.enrolments)*100, digits=2)`%
+* Run 7 = `r round(nrow(cyber.security.7.archetype.survey.responses)/nrow(cyber.security.7.enrolments)*100, digits=2)`%
+
+
+## Data for Analysis 
+
+It should therefore be noted that this analysis will be carried out on `r nrow(enrol_leave_arch)` of `r nrow(enrol_compl)` learners (`r round(nrow(enrol_leave_arch)/nrow(enrol_compl)*100, digits=2)`%)
+

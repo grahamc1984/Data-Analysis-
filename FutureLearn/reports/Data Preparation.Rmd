@@ -1,0 +1,46 @@
+---
+title: "Data Preparation"
+author: "Graham Cole"
+date: "20/11/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_knit$set(root.dir = normalizePath('..'))
+```
+
+```{r load project, include=FALSE}
+library(ProjectTemplate)
+load.project()  
+```
+
+## Data Preparation
+
+In order to begin the analysis, the disparate data files must first be brought together into a single source for each of the two strands of investigation; demographic and course progression.  
+
+On first inspection, it became clear that the data files were incomplete, with significant gaps in the data collected.  I carried out the following data cleansing methods with a view to:
+
+* transforming values from character strings to useable classes (Time & Date); 
+* focussing the data in line with my enquiries; and
+* mitigating the gaps in data.
+
+
+The code for these methods can be found in file 01-A.R within the Project Template file.  
+
+### Transforming Values 
+
+In importing the data files (MS Excel CSV), I set the "as_factors" argument in the project config file to "FALSE" so that the data was imported as character strings rather than factors.  This provided a "blank slate" from which I could manipulate the desired values.  
+
+In order to work with the date & time values, I transormed these into "POSIXct" class using the "strptime" function" in base R.  I then created a new column "Month" combining the "Mutate" function in "dplyr" together with "month" function from the "lubridate" package.  
+
+This process then allowed me to interogate and group the data based on month in a format which could be utilised by the "ggplot" function wihtin the "ggplot2" package.  
+
+### Focussing Data 
+
+In order to analyse the demographic information provided, I brought together the Archetype, Enrolment and Leavers data, combining the data for runs 3-7 to create a master file ("enrol_leave_arch").  For this task, I utilised the left_join function as part of the "dplyr" package, using the "learner_id" field as a key.  
+
+### Mitigating Data Gaps 
+
+In combining the data as set out above, I then removed all information pertaining to learners that had not completed the archetype survey using the "drop_na" function as part of the "dplyr" package.  This provided the data set on whcih I could underatke my analysis.  
+
