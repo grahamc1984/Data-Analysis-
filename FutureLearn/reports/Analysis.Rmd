@@ -8,6 +8,7 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 knitr::opts_knit$set(root.dir = normalizePath('..'))
+knitr::opts_chunk$set(out.width='750px', dpi=200)
 ```
 
 ```{r load project, include=FALSE}
@@ -21,11 +22,11 @@ The key components of information pertaining to learner demographic are:
 
 * Gener
 * Age
-* Education Level 
 * Employment Status
 
 For expendiency, I have discounted the following componets from my demographic analysis.  
 
+* Education Level
 * Employment Sector 
 * Country of Residence 
 
@@ -81,7 +82,7 @@ arch_gender_prop=enrol_leave_arch %>%
   summarise(n=n()) %>% 
   mutate(freq=n/sum(n))
 
-ggplot(data=arch_gender_prop)+geom_bar(aes(x=archetype, y=n, fill = factor(arch_gender_prop$gender)),stat = "identity")
+ggplot(data=arch_gender_prop)+geom_bar(aes(x=archetype, y=n, fill = factor(arch_gender_prop$gender)),stat = "identity")+theme(axis.text.x = element_text(angle = 90))
 ```
 
 ```{r inline gender, include=FALSE, echo=FALSE}
@@ -131,10 +132,15 @@ arch_empl_status=enrol_leave_arch %>%
   summarise(n=n()) %>% 
   mutate(freq=n/sum(n))
 ggplot(data=arch_empl_status)+geom_bar(aes(x=employment_status, y=n, fill = factor(arch_empl_status$archetype)),stat = "identity") +theme(axis.text.x = element_text(angle = 90))
+
+se_vital=arch_empl_status %>% 
+  filter(archetype=="Vitalisers", employment_status=="self_employed") %>% 
+  pull(var=4)
 ```
 
+Data was provided for `r sum(arch_empl_status$n)` learners. 
 
-[add explanatory text]
+The strongest signal in this data is found in the "Self Employed" category, with `r round(se_vital*100, digits=1)`% identifying as part of hte Vitaliser archetype class.  
 
 # Analysis of Progress Data by Archetype Class 
 
@@ -177,6 +183,8 @@ Learners identifying as part of the Preparers archetype also perform well, compl
   summary(prep_vec)
 ```
 
+The outlying values shown on the graph are anomalous and further work is required to scruitinise and discount these on a case by case basis.  
+
 ## Course Progress by Archetype Class - 2018
 
 ```{r steps 2018, include=TRUE, echo=FALSE}
@@ -188,7 +196,22 @@ step_by_arch_2018=step_arch_prog_2018 %>%
 ggplot(step_by_arch_2018, aes(x = as.factor(archetype), y = step_by_arch_2018$total_progress)) + geom_boxplot()
 ```
 
-Data was provided for `r nrow(step_by_arch_2018)` learners
+Data was provided for `r nrow(step_by_arch_2018)` learners.
+
+```{r summary tables 2018 preparers, include=TRUE, echo=FALSE}
+
+prep_step_2018=step_by_arch_2018 %>% 
+  filter(archetype=="Preparers") 
+prep_vec_18=pull(prep_step_2018,var=3)
+
+hobby_step_2018=step_by_arch_2018 %>% 
+  filter(archetype=="Hobbyists") 
+hobby_vec_18=pull(hobby_step_2018,var=3)
+
+
+```
+
+Comparing this data to that seen in 2017, there has been a significant decrease in the median number of course steps completed accross all archetype classess.  Looking again at the Hobbyist and Performers archetypes, we see that the average number of steps completed (`r round(mean(hobby_vec_18), digits=1)` and `r round(mean(prep_vec_18), digits=1)` respectively).   
 
 
 
