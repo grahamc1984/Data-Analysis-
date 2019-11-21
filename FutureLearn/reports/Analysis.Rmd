@@ -23,6 +23,9 @@ The key components of information pertaining to learner demographic are:
 * Age
 * Education Level 
 * Employment Status
+
+For expendiency, I have discounted the following componets from my demographic analysis.  
+
 * Employment Sector 
 * Country of Residence 
 
@@ -80,6 +83,7 @@ arch_gender_prop=enrol_leave_arch %>%
 
 ggplot(data=arch_gender_prop)+geom_bar(aes(x=archetype, y=n, fill = factor(arch_gender_prop$gender)),stat = "identity")
 ```
+
 ```{r inline gender, include=FALSE, echo=FALSE}
 #explorers male
 E_M=arch_gender_prop %>% 
@@ -111,11 +115,27 @@ female=arch_gender_prop %>%
 
 ```
 
-Data has been provided for `r sum(arch_gender_prop[3,3])' learners. 
+Data has been provided for `r sum(arch_gender_prop[,3])' learners. 
 
-The graph above shows the majority of Advancers (`r round(A_M*100, digits=1)`%) and Explorers (`r round(E_M*100, digits=1)`%) are male where as the majority of Vitalisers (`r round(V_F*100, digits=1)`%) and Fixers (`r round(F_F*100, digits=1)`%) are female. 
+The graph above shows that the majority of Advancers (`r round(A_M*100, digits=1)`%) and Explorers (`r round(E_M*100, digits=1)`%) are male where as the majority of Vitalisers (`r round(V_F*100, digits=1)`%) and Fixers (`r round(F_F*100, digits=1)`%) are female. 
 
 The proportion of male to female learners accross the sample data is `r sum(male)`/ `r sum(female)`.
+
+## Employment Status by Archteype Class 
+
+``` {r employment status by arch, include=FALSE, echo=FALSE}
+#grouping by archetype and work status 
+arch_empl_status=enrol_leave_arch %>% 
+  filter(employment_status!="Unknown") %>% 
+  group_by(archetype,employment_status) %>% 
+  summarise(n=n()) %>% 
+  mutate(freq=n/sum(n))
+ggplot(data=arch_empl_status)+geom_bar(aes(x=employment_status, y=n, fill = factor(arch_empl_status$archetype)),stat = "identity")
+```
+
+
+
+
 
 
 
