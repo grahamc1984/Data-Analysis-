@@ -34,11 +34,15 @@ In importing the data files (MS Excel CSV), I set the "as_factors" argument in t
 
 In order to work with the date & time values, I transormed these into "POSIXct" class using the "strptime" function" in base R.  I then created a new column "Month" combining the "Mutate" function in "dplyr" together with "month" function from the "lubridate" package.  
 
-This process then allowed me to interogate and group the data based on month in a format which could be utilised by the "ggplot" function wihtin the "ggplot2" package.  
+This process then allowed me to interogate and group the data based on month in a format which could be utilised by the "ggplot" function wihtin the "ggplot2" package.
+
+In relation to the course progress investigation, I used the "mutate" function to add a numeric column, using 1 and 0, which represented whether the learner had completed a step.  This allowed me to scrutinise the course progress of learners within an archetype.  
 
 ### Focussing Data 
 
-In order to analyse the demographic information provided, I brought together the Archetype, Enrolment and Leavers data, combining the data for runs 3-7 to create a master file ("enrol_leave_arch").  For this task, I utilised the left_join function as part of the "dplyr" package, using the "learner_id" field as a key.  
+In order to analyse the demographic information provided, I brought together the Archetype, Enrolment and Leavers data, combining the data for runs 3-7 to create a master file ("enrol_leave_arch").  For this task, I utilised the left_join function as part of the "dplyr" package, using the "learner_id" field as a key.
+
+Similarly, I combined the step.activity data for runs 3-7 using "rbind" and then joined this with the "arch_compl" archetype data.  
 
 ### Mitigating Data Gaps 
 
