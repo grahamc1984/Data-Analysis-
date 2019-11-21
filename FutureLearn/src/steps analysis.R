@@ -23,23 +23,19 @@ step_arch_prog_2018=step_arch_prog %>%
 #group by arch then learner id to produce individual steps 
 step_by_arch_2017=step_arch_prog_2017 %>% 
   group_by(archetype, learner_id) %>% 
-  summarise(sum(progress))
+  summarise("total progress"=sum(progress))
 
-# pull out vectors for each arch 
-Step_adv_2017=step_by_arch_2017 %>% 
-  filter(archetype=="Advancers")
-Advancers_2017=pull(Step_adv_2017, var=3)
-summary(Advancers_2017)
+step_by_arch_2018=step_arch_prog_2018 %>%
+   group_by(archetype, learner_id) %>% 
+   summarise("total progress" = sum(progress))
 
-Step_fix_2017=step_by_arch_2017 %>% 
-  filter(archetype=="Fixers")
-Fixers_2017=pull(Step_fix_2017, var=3)
-summary(Fixers_2017)
 
+
+  
 
 str(Step_adv_2017)
-ggplot(step_by_arch_2017, aes(x = as.factor(archetype), y = `sum(progress)`)) + geom_boxplot()
-
+ggplot(step_by_arch_2017, aes(x = as.factor(archetype), y = `total_progress`)) + geom_boxplot()
+ggplot(step_by_arch_2018, aes(x = as.factor(archetype), y = `total_progress`)) + geom_boxplot()
 
 boxplot(Advancers_2017, Fixers_2017)
 
@@ -47,3 +43,14 @@ boxplot(Advancers_2017, Fixers_2017)
 a=step_arch_compl %>% 
   filter(learner_id=="b58e2472-4989-49cd-b7fc-1c75aaa99e65")
 
+step_arch_prog_run=mutate(step_data_with_run, progress=as.numeric(ifelse(step_data_with_run$last_completed_at!="", "1", "0")))
+steps_comp=left_join(step_arch_prog_run, arch_compl, by="learner_id")
+
+steps_3=steps_comp %>% 
+  drop_na(archetype) %>% 
+  filter(run=="3") %>% 
+  group_by(archetype, learner_id) %>% 
+  summarise("total progress"=sum(progress))
+
+steps_3 %>% 
+  filter(`total progress`<=62)

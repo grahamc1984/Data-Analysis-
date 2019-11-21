@@ -18,9 +18,6 @@ arch_gender=enrol_leave_arch %>%
   filter(gender!="Unknown") %>% 
   group_by(archetype, gender) %>% 
   summarise(count=n())
-ggplot(data=arch_gender)+geom_bar(aes(x=archetype, y=n, fill = factor(arch_gender$gender)),stat = "identity")
-
-
 
 #grouping by archetype and country 
 arch_country=enrol_leave_arch %>% 
@@ -31,16 +28,16 @@ arch_country=enrol_leave_arch %>%
 #grouping by archetype and work status 
 arch_empl_status=enrol_leave_arch %>% 
   filter(employment_status!="Unknown") %>% 
-  group_by(archetype, employment_status) %>% 
-  summarise(count=n())
+  group_by(archetype,employment_status) %>% 
+  summarise(n=n()) %>% 
+  mutate(freq=n/sum(n))
+ggplot(data=arch_empl_status)+geom_bar(aes(x=employment_status, y=n, fill = factor(arch_empl_status$archetype)),stat = "identity")
 
 #grouping by archetype and work area 
 arch_empl_area=enrol_leave_arch %>% 
   filter(employment_area!="Unknown") %>% 
   group_by(archetype, employment_area) %>% 
   summarise(count=n())
-
-
 
 #relative proportion age by archetype
 arch_age_prop=enrol_leave_arch %>% 
@@ -49,10 +46,15 @@ arch_age_prop=enrol_leave_arch %>%
   summarise(n=n()) %>% 
   mutate(freq=n/sum(n))
 
+#age proportion 
+ggplot(data=arch_age_prop)+geom_bar(aes(x=age_range, y=n, fill = factor(arch_age_prop$archetype)),stat = "identity")
+
 maxage=arch_age_prop %>% 
   filter(age_range=="46-55") %>% 
   pull(var=-2)
  sum(maxage)
+
+sum(arch_age_prop[,3])
 
 
 V46_55=arch_age_prop %>% 
@@ -72,39 +74,6 @@ round(V46_55*100,digits=1)
 round(V65*100,digits=1)
 round(E26_35*100,digits=1)
 round(E36_45*100,digits=1)
-
-#grouping by archetype and gender 
-arch_gender_prop=enrol_leave_arch %>% 
-  filter(gender!="Unknown") %>% 
-  group_by(archetype, gender) %>% 
-  summarise(n=n()) %>% 
-  mutate(freq=n/sum(n))
-#explorers male
-E_M=arch_gender_prop %>% 
-  filter(gender=="male", archetype=="Explorers") %>% 
-  pull(var=4)
-round(E_M*100, digits=1)
-#advancers male
-A_M=arch_gender_prop %>% 
-  filter(gender=="male", archetype=="Advancers") %>% 
-  pull(var=4)
-round(A_M*100, digits=1)
-#vitalisers female
-V_F=arch_gender_prop %>% 
-  filter(gender=="female", archetype=="Vitalisers") %>% 
-  pull(var=4)
-round(V_F*100, digits=1)
-#fixers female
-F_F=arch_gender_prop %>% 
-  filter(gender=="female", archetype=="Fixers") %>% 
-  pull(var=4)
-round(F_F*100, digits=1)
-
-
-
-
-ggplot(data=arch_gender_prop)+geom_bar(aes(x=archetype, y=n, fill = factor(arch_gender_prop$gender)),stat = "identity")
-
 
 
 
@@ -149,3 +118,5 @@ arch_age_prop %>%
 install.packages("kableExtra")
 library(knitr)                                             
 library(kableExtra)
+
+sum(arch_empl_status$n)
